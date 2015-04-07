@@ -13,7 +13,7 @@
         "jndi": "jdbc/datasource-1",
         "user": "app",
         "password": "app",
-        "url": "jdbd:derby://localhost:1527/demo;create=true",
+        "url": "jdbc:derby://localhost:1527/demo;create=true",
         "driver": "org.apache.derby.jdbc.ClientDriver"
     }
 }

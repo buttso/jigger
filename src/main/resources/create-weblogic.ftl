@@ -10,14 +10,14 @@ readTemplate('${domain.oracleHome}/${domain.template}')
 # Configure the Administration Server and SSL port.
 # =========================================================
 cd('Servers/AdminServer')
-set('ListenAddress', ${admin.listenAddress})
-set('ListenPort', ${admin.listenPort})
+set('ListenAddress', '${admin.listenAddress}')
+set('ListenPort', '${admin.listenPort}')
 
 <#if admin.listenPortSSL??>
 create('AdminServer','SSL')
 cd('SSL/AdminServer')
 set('Enabled', 'True')
-set('ListenPort', ${admin.listenPortSSL})
+set('ListenPort', '${admin.listenPortSSL}')
 
 cd('/Servers/AdminServer/SSL/AdminServer')
 cmo.setHostnameVerificationIgnored(true)

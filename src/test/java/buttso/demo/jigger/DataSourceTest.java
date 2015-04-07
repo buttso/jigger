@@ -33,10 +33,9 @@ public class DataSourceTest extends BaseTest {
         DataSource ds = weblogic.getDataSources().get(0);
         Assert.assertTrue("datasource-1".equals(ds.getName()));
         Assert.assertTrue("jdbc/datasource-1".equals(ds.getJndi()));
-        Assert.assertTrue("jdbc:oracle:thin://@localhost:1521/demo".equals(ds.getUrl()));
+        Assert.assertTrue("jdbc:derby://localhost:1527/demo;create=true".equals(ds.getUrl()));
         Assert.assertTrue("app".equals(ds.getUser()));
         Assert.assertTrue("app".equals(ds.getPassword()));
-
     }
 
     @Test
