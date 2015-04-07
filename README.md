@@ -19,7 +19,8 @@ This project contains a simple utility that generates a WebLogic domain creation
         "user": "weblogic",
         "password": "welcome123"
     }
-}```
+}
+```
 
 
 
