@@ -1,0 +1,34 @@
+{
+    "domain": {
+        "oracleHome": "/Users/sbutton/Oracle/Middleware",
+        "name": "dev",
+        "destination": "/tmp",
+        "restEnabled": "true",
+        "mode": "dev"
+    },
+    "admin": {
+        "user": "weblogic",
+        "password": "welcome123"
+    },
+    "datasource": [
+        {
+            "name": "datasource-1",
+            "jndi": "jdbc/datasource-1",
+            "user": "app",
+            "password": "app",
+            "url": "jdbd:derby://localhost:1527/demo;create=true",
+            "driver": "org.apache.derby.jdbc.ClientDriver"
+        },
+        {
+            "name": "datasource-2",
+            "jndi": "jdbc/datasource-2",
+            "user": "app",
+            "password": "app",
+            "url": "jdbc:oracle:thin://@localhost:1521/demo",
+            "driver": "oracle.jdbc.DataSource"
+        }
+    ]
+
+
+
+}

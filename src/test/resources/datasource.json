@@ -1,0 +1,19 @@
+{
+    "domain": {
+        "oracleHome": "/Users/sbutton/Oracle/Middleware",
+        "name": "datasource-test",
+        "destination": "/tmp"
+    },
+    "admin": {
+        "user": "weblogic",
+        "password": "a!b@c#d$"
+    },
+    "datasource": {
+        "name": "datasource-1",
+        "jndi": "jdbc/datasource-1",
+        "user": "app",
+        "password": "app",
+        "url": "jdbd:derby://localhost:1527/demo;create=true",
+        "driver": "org.apache.derby.jdbc.ClientDriver"
+    }
+}

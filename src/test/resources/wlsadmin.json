@@ -1,0 +1,17 @@
+{
+        "domain": {
+            "oracleHome": "/Users/sbutton/Oracle/Middleware",
+            "name": "production",
+            "destination": "/tmp",
+            "restEnabled": "false",
+            "mode": "prod"
+        },
+        "admin": {
+            "listenPort": "17001",
+            "listenPortSSL": "17443",
+            "listenAddress": "10.10.10.10",
+            "user": "weblogic",
+            "password": "a!b@c#d$"
+        }
+
+}
