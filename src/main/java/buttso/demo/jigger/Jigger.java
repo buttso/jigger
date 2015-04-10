@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,11 +30,13 @@ import javax.xml.transform.stream.StreamSource;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 
 /**
+ * Who doesn't like a bit of Jiggy.
  *
  * @author sbutton
  */
 public class Jigger {
 
+    private static final String DEFAULT_WEBLOGIC_TEMPLATE = "create-weblogic.ftl";
     private String TEMPLATE_DIR = "./src/main/resources";
     private Configuration configuration = null;
 
@@ -49,7 +53,7 @@ public class Jigger {
     private void run(String args[]) throws Exception {
 
         //TODO: move to some form of cli/validate method
-        if (args.length ==0 || args[0] == null || "".equalsIgnoreCase(args[0])) {
+        if (args.length == 0 || args[0] == null || "".equalsIgnoreCase(args[0])) {
             showHelp();
             System.exit(-1);
         } else {
@@ -64,8 +68,12 @@ public class Jigger {
 
         initialise();
         WebLogic weblogic = parse(configFilename);
-        fillInTemplate("create-weblogic.ftl", weblogic);
-        
+
+        if (System.getProperties().containsKey("exec.wlst")) {
+            fillInTemplatetoWLST(DEFAULT_WEBLOGIC_TEMPLATE, weblogic);
+        } else {
+            fillInTemplatetoStdout(DEFAULT_WEBLOGIC_TEMPLATE, weblogic);
+        }
     }
 
     private void initialise() throws IOException {
@@ -90,20 +98,36 @@ public class Jigger {
         return weblogic;
     }
 
-    private void fillInTemplate(String templateName, WebLogic model) throws IOException, TemplateException {
+    private void fillInTemplatetoStdout(String templateName, WebLogic model) throws IOException, TemplateException {
         Template template = configuration.getTemplate(templateName);
         Writer out = new OutputStreamWriter(System.out);
+        StringWriter sout = new StringWriter();
         template.process(model, out);
     }
 
+    private void fillInTemplatetoWLST(String templateName, WebLogic model) throws IOException, TemplateException {
+        Template template = configuration.getTemplate(templateName);
+        StringWriter out = new StringWriter();
+        template.process(model, out);
+        try {
+            Class clz = Class.forName("buttso.demo.jigger.JiggerWLST");
+            Method execInline = clz.getMethod("execInline", new Class[] { java.lang.String.class, java.lang.String.class });
+            execInline.invoke(null, out.toString(), model.getDomain().getName());
+            
+            //new JiggerWLST().execInline(out.toString());
+        } catch (Exception ex) {
+            Logger.getLogger(Jigger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void showHelp() {
-        System.err.println("Jigger: generate a WebLogic domain creation script");
-        System.err.println("  - JSON configuration file");
+        System.err.println("Jigger - generate a WebLogic domain creation script");
+        System.err.println("  domain.json : JSON configuration file");
     }
 
     private void showError(String msg, Object... args) {
-        System.err.println("Jigger: generate a WebLogic domain creation script");
-        System.err.printf(String.format("  Error: %s\n", msg), args);
+        System.err.println("Jigger - generate a WebLogic domain creation script");
+        System.err.printf(String.format("  error: %s\n", msg), args);
     }
 
 }
