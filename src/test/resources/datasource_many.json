@@ -1,9 +1,8 @@
 {
     "domain": {
         "oracleHome": "/Users/sbutton/Oracle/Middleware",
-        "name": "dev",
+        "name": "datasource_many",
         "destination": "/tmp",
-        "restEnabled": "true",
         "mode": "dev"
     },
     "admin": {
@@ -25,7 +24,7 @@
             "user": "app",
             "password": "app",
             "url": "jdbc:oracle:thin://@localhost:1521/demo",
-            "driver": "oracle.jdbc.DataSource"
+            "driver": "oracle.jdbc.xa.client.OracleXADataSource"
         }
     ]
 

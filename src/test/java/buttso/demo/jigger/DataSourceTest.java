@@ -40,7 +40,7 @@ public class DataSourceTest extends BaseTest {
 
     @Test
     public void testManyDataSourceConfig() throws JAXBException {
-        WebLogic weblogic = getWebLogic("datasource-many.json");
+        WebLogic weblogic = getWebLogic("datasource_many.json");
         System.out.println("");
         System.out.println(weblogic);
         System.out.println("");

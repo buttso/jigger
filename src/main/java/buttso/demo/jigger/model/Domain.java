@@ -15,14 +15,13 @@ package buttso.demo.jigger.model;
  */
 public class Domain {
      
-    private final String TEMPLATE_DEFAULT = "/wlserver/common/templates/wls/wls.jar";
+    private final String TEMPLATE_DEFAULT = "wlserver/common/templates/wls/wls.jar";
     
     private String oracleHome;
     private String template = TEMPLATE_DEFAULT;
     private String name;
     private String destination;
     private String mode = "dev";
-    private String restEnabled = "true";
 
     /**
      * The OracleHome that his domain will use.
@@ -89,22 +88,9 @@ public class Domain {
         this.mode = mode;
     }
 
-    /**
-     * Is the REST Management API enabled for the domain.
-     * 
-     * @return REST Managent API enabled
-     */
-    public String getRestEnabled() {
-        return restEnabled;
-    }
-
-    public void setRestEnabled(String restEnabled) {
-        this.restEnabled = restEnabled;
-    }
-
     @Override
     public String toString() {
-        return "Domain: { " + "oracleHome:" + oracleHome + ", template:" + template + ", name:" + name + ", destination:" + destination + ", mode:" + mode + ", restEnabled:" + restEnabled + " }";
+        return "Domain: { " + "oracleHome:" + oracleHome + ", template:" + template + ", name:" + name + ", destination:" + destination + ", mode:" + mode + " }";
     }
     
     

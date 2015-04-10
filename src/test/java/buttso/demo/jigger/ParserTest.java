@@ -35,13 +35,13 @@ public class ParserTest extends BaseTest {
     @Test
     public void testFullConfig() throws JAXBException {
        
-        WebLogic weblogic = getWebLogic("wlsadmin.json");
+        WebLogic weblogic = getWebLogic("production.json");
         
         Assert.assertNotNull(weblogic);
         Assert.assertNotNull(weblogic.getDomain());
         Assert.assertNotNull(weblogic.getAdmin());
         Assert.assertTrue("production".equals(weblogic.getDomain().getName()));
-        Assert.assertTrue("10.10.10.10".equals(weblogic.getAdmin().getListenAddress()));
+        Assert.assertTrue("127.0.0.1".equals(weblogic.getAdmin().getListenAddress()));
         Assert.assertTrue("17001".equals(weblogic.getAdmin().getListenPort()));
         Assert.assertTrue("17443".equals(weblogic.getAdmin().getListenPortSSL()));
         Assert.assertTrue("domain should be in production mode", "prod".equals(weblogic.getDomain().getMode())) ;

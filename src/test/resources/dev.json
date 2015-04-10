@@ -3,7 +3,6 @@
             "oracleHome": "/Users/sbutton/Oracle/Middleware",
             "name": "dev",
             "destination": "/tmp",
-            "restEnabled": "true",
             "mode": "dev"
         },
         "admin": {

@@ -7,17 +7,22 @@
 # ============================
 readTemplate('${domain.oracleHome}/${domain.template}')
 
+# Configure Domain Name
+# =====================
+cd('/')
+set('Name','${domain.name}')
+
 # Configure the Administration Server and SSL port.
 # =========================================================
 cd('Servers/AdminServer')
 set('ListenAddress', '${admin.listenAddress}')
-set('ListenPort', '${admin.listenPort}')
+set('ListenPort', ${admin.listenPort})
 
 <#if admin.listenPortSSL??>
 create('AdminServer','SSL')
 cd('SSL/AdminServer')
 set('Enabled', 'True')
-set('ListenPort', '${admin.listenPortSSL}')
+set('ListenPort', ${admin.listenPortSSL})
 
 cd('/Servers/AdminServer/SSL/AdminServer')
 cmo.setHostnameVerificationIgnored(true)
@@ -29,7 +34,7 @@ cmo.setClientCertificateEnforced(false)
 # Define the user password for weblogic
 # =====================================
 cd('/')
-cd('Security/base_domain/User/${admin.user}')
+cd('Security/${domain.name}/User/${admin.user}')
 cmo.setPassword('${admin.password}')
 
 <#if dataSources?size gt 0>
@@ -61,10 +66,9 @@ create('myJdbcConnectionPoolParams','JDBCConnectionPoolParams')
 cd('JDBCConnectionPoolParams/NO_NAME_0')
 set('TestTableName','SYSTABLES')
 
-# Target resource to the servers 
-# ==============================
+# Target resource to the AdminServer 
+# ==================================
 assign('JDBCSystemResource', '${datasource.name}', 'Target', 'AdminServer')
-
 </#list>
 </#if>
 
@@ -76,17 +80,14 @@ assign('JDBCSystemResource', '${datasource.name}', 'Target', 'AdminServer')
 </#list>
 </#if>
 
-# Enable REST Management API
-# Write the domain and close the domain template
-# ==============================================
-<#if domain.restEnabled??>
-cd('/RestfulManagementServices')
-set('base_domain','${domain.restEnabled}')
-</#if>
-
+# Set Domain Options
+# ==================
+cd('/')
 setOption('OverwriteDomain', 'true')
 setOption('ServerStartMode','${domain.mode}')
 
+# Write Domain and Close
+# ======================
 writeDomain('${domain.destination}/${domain.name}')
 closeTemplate()
 

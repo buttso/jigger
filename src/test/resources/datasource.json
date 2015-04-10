@@ -1,7 +1,7 @@
 {
     "domain": {
         "oracleHome": "/Users/sbutton/Oracle/Middleware",
-        "name": "datasource-test",
+        "name": "datasource",
         "destination": "/tmp"
     },
     "admin": {
