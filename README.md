@@ -61,7 +61,10 @@ closeTemplate()
 exit()
 ```
 
-## More details to come
+## Invoking WLST Automatically
+Jigger can automatically execute the generated WLST using the following command line, specifying -Dwlst.exec, adding weblogic.jar to the CLASSPATH and directly invoking the Jigger class:
+
+```java -Dwlst.exec -Dwlst.detail  -cp ./jigger-jar-with-dependencies.jar:/Users/sbutton/Oracle/Middleware/wlserver/server/lib/weblogic.jar buttso.demo.jigger.Jigger dev.json```
 
 
 

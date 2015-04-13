@@ -17,7 +17,6 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,8 +35,8 @@ import org.eclipse.persistence.jaxb.JAXBContextProperties;
  */
 public class Jigger {
 
+    private static final Logger LOG = Logger.getLogger(Jigger.class.getName());
     private static final String DEFAULT_WEBLOGIC_TEMPLATE = "create-weblogic.ftl";
-    private String TEMPLATE_DIR = "./src/main/resources";
     private Configuration configuration = null;
 
     public static void main(String args[]) {
@@ -51,7 +50,6 @@ public class Jigger {
     }
 
     private void run(String args[]) throws Exception {
-
         //TODO: move to some form of cli/validate method
         if (args.length == 0 || args[0] == null || "".equalsIgnoreCase(args[0])) {
             showHelp();
@@ -69,7 +67,7 @@ public class Jigger {
         initialise();
         WebLogic weblogic = parse(configFilename);
 
-        if (System.getProperties().containsKey("exec.wlst")) {
+        if (System.getProperties().containsKey("wlst.exec")) {
             fillInTemplatetoWLST(DEFAULT_WEBLOGIC_TEMPLATE, weblogic);
         } else {
             fillInTemplatetoStdout(DEFAULT_WEBLOGIC_TEMPLATE, weblogic);
@@ -84,7 +82,6 @@ public class Jigger {
     }
 
     public WebLogic parse(String filename) throws JAXBException, FileNotFoundException {
-
         Map<String, Object> properties = new HashMap<String, Object>(2);
         properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
         properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
@@ -108,13 +105,12 @@ public class Jigger {
     private void fillInTemplatetoWLST(String templateName, WebLogic model) throws IOException, TemplateException {
         Template template = configuration.getTemplate(templateName);
         StringWriter out = new StringWriter();
+        
         template.process(model, out);
         try {
             Class clz = Class.forName("buttso.demo.jigger.JiggerWLST");
-            Method execInline = clz.getMethod("execInline", new Class[] { java.lang.String.class, java.lang.String.class });
-            execInline.invoke(null, out.toString(), model.getDomain().getName());
-            
-            //new JiggerWLST().execInline(out.toString());
+            Method execute = clz.getMethod("execute", new Class[] { java.lang.String.class, buttso.demo.jigger.model.Domain.class });
+            execute.invoke(null, out.toString(), model.getDomain());
         } catch (Exception ex) {
             Logger.getLogger(Jigger.class.getName()).log(Level.SEVERE, null, ex);
         }

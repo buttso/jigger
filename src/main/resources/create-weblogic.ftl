@@ -91,6 +91,5 @@ setOption('ServerStartMode','${domain.mode}')
 writeDomain('${domain.destination}/${domain.name}')
 closeTemplate()
 
-# Exit WLST
-# =========
-exit()
+# End Script
+# ==========

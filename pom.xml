@@ -6,6 +6,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
     <dependencies>
+        <!--
         <dependency>
             <groupId>com.oracle.weblogic</groupId>
             <artifactId>weblogic-server-pom</artifactId>
@@ -13,6 +14,7 @@
             <type>POM</type>
             <scope>provided</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
